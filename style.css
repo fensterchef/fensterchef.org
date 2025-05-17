@@ -1,5 +1,25 @@
 body {
+  padding: 0;
+  margin: auto;
+  max-width: 38em;
+  align-items: center;
   background-color: white;
   color: black;
-  font-family: Verdana;
+  font-family: Sans;
+}
+
+.horizontal-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizontal-center ul {
+  display: flex;
+}
+
+.horizontal-center li {
+  display: block;
+  background: #aaaaaa;
+  padding: 1em;
 }
