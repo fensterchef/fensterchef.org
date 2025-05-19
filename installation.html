@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fensterchef</title>
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body>
+    <div id="content">
+      <div id="banner">
+        <img src="logo.png" alt="Fensterchef logo"></img>
+        <h1>Fensterchef</h1>
+      </div>
+
+      <nav>
+        <a href="index.html"><button>Home</button></a>
+        <a href="documentation.html"><button>Documentation</button></a>
+        <a href="installation.html"><button>Installation</button></a>
+      </nav>
+
+      <h3>Build from source</h3>
+      <p>
+      Depends on: X11, Xrandr&geq;1.2, Xcursor and Xft
+      </p>
+
+      <p>
+      Building requires: coreutils, gzip, pkgconf, a C99 compiler and a unix shell
+      </p>
+
+<pre>
+git clone https://github.com/fensterchef/fensterchef.git &amp;&amp;
+cd fensterchef &amp;&amp;
+sudo ./make install &amp;&amp;
+fensterchef --version
+</pre>
+
+      <h3>Using an AUR helper</h3>
+<pre>
+pacaur -S fensterchef
+</pre>
+
+      <h3>Setup</h3>
+    
+      <p>
+      For most display managers like LigthDM, GDM, SLiM etc., it suffices to edit
+      <code>~/.xsession</code>:
+      </p>
+<pre>
+mkdir -p ~/.local/share/fensterchef
+exec /usr/bin/fensterchef -dinfo 2&gtr;~/.local/share/fensterchef/$(date +%F_%T).log
+</pre>
+      Either replace this with an existing window manager or append it to the end.
+
+      <p>
+      When using no display manager, use
+      <a href="https://linux.die.net/man/1/xinit">your preferred way</a>.
+      </p>
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fensterchef</title>
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body>
+    <div id="content">
+      <div id="banner">
+        <img src="logo.png" alt="Fensterchef logo"></img>
+        <h1>Fensterchef</h1>
+      </div>
+
+      <nav>
+        <a href="index.html"><button>Home</button></a>
+        <a href="documentation.html"><button>Documentation</button></a>
+        <a href="installation.html"><button>Installation</button></a>
+      </nav>
+
+      <p>
+      This is the documentation of the X11 window manager <b>fensterchef</b>.
+      <br>
+      <h2>Content</h2>
+      <ul>
+        <li><a href="#Layer">Layer</a></li>
+        <li><a href="#Window">Window</a></li>
+        <li><a href="#Frame">Frame</a></li>
+        <li><a href="#Monitor">Monitor</a></li>
+        <li><a href="#Binding">Key/button binding</a></li>
+        <li><a href="#Relation">Relation</a></li>
+        <li><a href="#Command-line">Command line</a></li>
+        <li><a href="configuration.html">Configuration</a></li>
+      </ul>
+      </p>
+
+      <h2 id="Layer">Layer</h2>
+      <p>
+      Fensterchef has three layers: The <b>desktop</b> layer at the bottom, the
+      <b>tiling</b> layer and the <b>floating</b> layer at the top.
+      </p>
+
+      <p>
+      Let us break up all layers from bottom to top.
+      </p>
+
+      <h3>Desktop layer</h3>
+      <p>
+      The desktop layer is at the very bottom and meant to hold onto managed
+      desktop windows.  This can be windows holding icons and accepting input.
+      </p>
+
+      <h3>Tiling layer</h3>
+      <p>
+      The tiling layer is the most complex of all.  It holds onto frames which
+      cut the screen into pieces.  Frames may be empty or contain a window.
+      </p>
+
+      <h3>Floating layer</h3>
+      <p>
+      The floating layer contains dock windows, fullscreen windows, dialog
+      windows and regular floating windows.  You can decide the size of regular
+      floating windows and position them freely.
+      </p>
+
+      <h2 id="Window">Window</h2>
+      <p>
+      A window is what you would expect!  When starting a client, it may spawn
+      as many windows as it likes.  These can be windows our window manager
+      should manage or unmanaged windows like popup menus of toolbars.  Windows
+      can be on any layer.  You can toggle between the tiling and floating
+      layer.  There are 5 modes a window can be in.
+      </p>
+      
+      <h3>Desktop window</h3>
+      <p>
+      Desktop windows are always on the desktop layer and you can only interact
+      with their native interface.  Our window manager does not mess with them
+      too much.
+      </p>
+
+      <h3>Dock window</h3>
+      <p>
+      Dock windows are attached to the side of a screen.  They may be bars or
+      other attached windows.
+      </p>
+
+      <h3>Tiling window</h3>
+      <p>
+      Tiling windows are on the tiling layer and can be toggled to the floating
+      layer.  They are contained within frames and rigidly sized to fit within
+      their frame.
+      </p>
+
+      <h3>Floating window</h3>
+      <p>
+      Floating windows are at the floating layer.  They can be freely positioned
+      and sized (depending on the size hints the underlying client configured
+      for its window) and toggled to the tiling layer.
+      </p>
+
+      <h2 id="Frame">Frame</h2>
+      <p>
+      Frames are always on the tiling layer.  The may be empty (ready to be
+      filled with a window) or contain a window.  Root frames are placed on each
+      monitor.  They can then be freely be split in two child frames without
+      limit.  When a frame is split, it becomes a parent.
+      </p>
+
+      <h2 id="Monitor">Monitor</h2>
+      <p>
+      A monitor is directly correlated to a configured output device.
+      <b>xrandr</b> is used to query the configured outputs.  See the
+      documentation for it.
+      </p>
+
+      <h2 id="Binding">Binding</h2>
+      <p>
+      Bindings are button or key bindings that can be associated to commands the
+      window manager should run.  These commands can be external shell commands
+      or internal commands.
+      </p>
+
+      <h3>Default bindings</h3>
+      <p>
+      Use the the modifier key (default is
+      <code><span class="binding-modifier">Mod4</span></code> which is usually
+      <code><span class="key-symbol">Super_L</span></code>)
+      together with below mentioned bindings.
+      </p>
+
+      <div class="description">
+        <code><span class="mouse-button">LeftButton</span></code>
+        <p>
+        Start moving/resizing the pressed window, this figures out dynamically
+        which edge to move.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="mouse-button">MiddleButton</span></code>
+        <p>
+        Minimize (hide) the pressed window.        
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="mouse-button">RightButton</span></code>
+        <p>
+        Start moving the pressed window.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="binding-modifier">Shift</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="key-symbol">R</span>
+        </code>
+        <p>
+        Reload the configuration file and parts of fensterchef.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="key-symbol">A</span>
+        </code>
+        <p>
+        Focus the parent frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="key-symbol">B</span>
+        </code>
+        <p>
+        Focus the child frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="binding-modifier">Shift</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="key-symbol">A</span>
+        </code>
+        <p>
+        Focus the root frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">Q</span></code>
+        <p>
+        Close the current window.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">- (minus)</span></code>
+        <p>
+        Minimize (hide) the current window.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">N</span></code>
+        <p>
+        Put the next window into the current frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">P</span></code>
+        <p>
+        Put the previous window into the current frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">R</span></code>
+        <p>
+        Remove the current frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">O</span></code>
+        <p>
+        Replace the current frame with the last stashed frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">Space</span></code>
+        <p>
+        Move the focus from tiling to floating and vise versa.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="binding-modifier">Shift</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="key-symbol">Space</span>
+        </code>
+        <p>
+        Make a tiling window floating and vise versa.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">F</span></code>
+        <p>
+        Put the current window into fullscreen or put it out of fullscreen.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">V</span></code>
+        <p>
+        Split the current frame horizontally.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">S</span></code>
+        <p>
+        Split the current frame vertically.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">K</span>/<span class="key-symbol">Up</span></code>
+        <p>
+        Move the focus to the frame above the current frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">H</span>/<span class="key-symbol">Left</span></code>
+        <p>
+        Move the focus to the frame on the left of the current frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">L</span>/<span class="key-symbol">Right</span></code>
+        <p>
+        Move the focus to the frame on the right of the current frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">J</span>/<span class="key-symbol">Down</span></code>
+        <p>
+        Move the focus to the frame below the current frame.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="binding-modifier">Shift</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="key-symbol">K</span>/<span class="key-symbol">Up</span>
+        </code>
+        <p>
+        Swap the current frame with the frame above it.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="binding-modifier">Shift</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="key-symbol">H</span>/<span class="key-symbol">Left</span>
+        </code>
+        <p>
+        Swap the current frame with the frame on the left of it.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="binding-modifier">Shift</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="key-symbol">L</span>/<span class="key-symbol">Right</span>
+        </code>
+        <p>
+        Swap the current frame with the frame on the right of it.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="binding-modifier">Shift</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="key-symbol">J</span>/<span class="key-symbol">Down</span>
+        </code>
+        <p>
+        Swap the current frame with the frame below it.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">W</span></code>
+        <p>
+        Show the interactive window list.
+        </p>
+      </div>
+
+      <div class="description">
+        <code><span class="key-symbol">Return</span></code>
+        <p>
+        Open a terminal window.
+        </p>
+      </div>
+
+      <div class="description">
+        <code>
+        <span class="binding-modifier">Control</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="binding-modifier">Shift</span>
+        <span class="binding-modifier-plus">+</span>
+        <span class="key-symbol">E</span>
+        </code>
+        <p>
+        Quit fensterchef.
+        </p>
+      </div>
+
+      <h2 id="Relation">Relation</h2>
+      <p>
+      A relation can be thought of as a connection between a window and
+      commands.  A relation is described using the window resource name and
+      resource class (also known as window instance and class).  To find out the
+      instance and class of specific a window, inspect it using
+      <code>xprop</code>.  Look for the <code>WM_CLASS</code> property it.  The
+      first value is the instance and the second one is the class.  By default
+      there are no relations.  You can freely configure your own.
+      </p>
+
+      <h2 id="Command-line">Command line</h2>
+      <p>
+      Commands can be run externally in fensterchef using this command:
+<pre>
+fensterchef -e ...
+</pre>
+      A few examples:
+<pre>
+fensterchef -e 'focus right'
+fensterchef -e 'run xterm'
+fensterchef -e 'Mod4+Shift+a split vertically'
+fensterchef -e 'unbind Mod4+Shift+a'
+</pre>
+      </p>
+
+      <div id="footer">
+        <p>
+          <a href="configuration.html">Configuration</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
