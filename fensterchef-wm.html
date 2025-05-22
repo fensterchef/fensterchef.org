@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fensterchef</title>
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body>
+    <div id="content">
+      <div id="banner">
+        <img src="logo.png" alt="Fensterchef logo"></img>
+        <h1>Fensterchef</h1>
+      </div>
+
+      <nav>
+        <a href="index.html"><button>Home</button></a>
+        <a href="fensterchef-wm.html"><button>Fensterchef-wm</button></a>
+      </nav>
+
+      <p>
+      Fensterchef-wm is a fast and flexible
+      <a href="https://en.wikipedia.org/wiki/Tiling_window_manager">tiling window manager</a>.
+      It is the original and most complex product hence we refer to it as just
+      "fensterchef".
+      </p>
+
+      <p>
+      Fensterchef currently only has an X11 backend but plans are there to port
+      it to Wayland compatible with previous configuration.
+      </p>
+
+      <p>
+      This document is a guide to the fensterchef window manager.
+      </p>
+
+      <p>
+      Content
+      </p>
+
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#setup">Setting up</a></li>
+        <li><a href="#start">Getting started</a></li>
+        <li>...</li>
+      </ul>
+
+      <h2 id="installation">Installation</h2>
+      <p>
+      Depends on: X11, Xrandr&geq;1.2, Xcursor and Xft
+      </p>
+
+      <h3>Build from source</h3>
+
+      <p>
+      Building requires: coreutils, gzip, pkgconf, a C99 compiler and a unix shell
+      </p>
+
+<pre>
+git clone https://github.com/fensterchef/fensterchef.git &amp;&amp;
+cd fensterchef &amp;&amp;
+sudo ./make install &amp;&amp;
+fensterchef --version
+</pre>
+
+      <h3>Using an <a href="https://wiki.archlinux.org/title/AUR_helpers">AUR helper</a></h3>
+<pre>
+pacaur -S fensterchef
+</pre>
+
+      <h2>Setting up</h2>
+    
+      <p>
+      For most <b id="glossary:display_manager">display managers</b>
+      like LigthDM, GDM, SLiM etc., it suffices to edit
+      <code>~/.xsession</code>:
+      </p>
+<pre>
+exec /usr/bin/fensterchef
+</pre>
+      <p>
+      When using no display manager, use
+      <a href="https://linux.die.net/man/1/xinit">your preferred way</a>.
+      </p>
+
+      </p>
+
+      <h2 id="start">Getting started</h2>
+      <p>
+      You get a <b id="glossary:default_configuration">default configuration</b>
+      baked into the executable.
+      But we also supply one in text at
+      <a href="https://github.com/fensterchef/fensterchef/blob/main/config">github</a>.
+      Place it at <code>~/.config/fensterchef/config</code>.
+      <br>
+      Within the configuration, look for the default modifier which is defined
+      as <code>Mod4</code> by <code>alias mod = Mod4</code>.
+      </p>
+      <div class="hint">
+      To see what key <code>Mod4</code> corresponds to, use
+      <code>xmodmap -pm</code>.
+      It usually is <code>Super_L</code>.
+      </div>
+      <div class="note">
+      From now on, we will refer to your
+      <b id="glossary:default modifiers">default modifier</b>
+      as <code>mod</code>.
+      </div>
+      <h3>Configure the terminal</h3>
+      <p>
+      To use your preferred <b id="glossary:terminal">terminal</b>, make an
+      environment variable called TERMINAL and set it to the executable to your
+      terminal emulator.
+      <br>
+      Configure this in your shell.  Usually, editing <code>~/.profile</code>
+      suffices.
+      </p>
+      <p>
+      Alternatively, make a bind in the fensterchef configuration.  Look for
+      the line in the supplied configuration that says "terminal".
+      The bind could look like:
+<code>~/.config/fensterchef/config</code>
+<pre>
+...
+# Start a terminal
+mod+Return run xterm
+...
+</pre>
+      </p>
+      <h3>Start an X session</h3>
+      <p>
+      Start an X session with fensterchef.
+      Fensterchef 2.0 supplies you with notifications and the window list.
+      Nothing more.
+      </p>
+
+      <h3>Open a terminal</h3>
+      <p>
+      Try your configured binding to open a terminal which is
+      <code>mod+Return</code> by default.
+      Open a second one and notice how it covers the previous terminal.
+      Fensterchef will never split unless told to split.
+      However, you can edit the configuration and enable
+      <code>auto split</code>.
+      Then, whenever a window is shown, it is split off the current window.
+      <br>
+      To close the terminal windows again, use <code>mod+q</code>.
+      </p>
+      <div class="hint">
+      No need to restart fensterchef.
+      Edit the configuration file and hit the <code>reload configuration</code>
+      binding <code>mod+Shift+r</code>.
+      </div>
+
+      <h3>Make windows float</h3>
+      <p>
+      Open a terminal and press <code>mod+Shift+space</code> to make a window
+      float.
+      It will be above the tiling windows on a separate layer.
+      <br>
+      The floating window mode can be toggled by pressing the binding again.
+      </p>
+      <p>
+      You may notice that an empty area is left behind when making a window
+      float.
+      To automatically remove such areas, turn on <code>auto remove void</code>
+      or the more aggressive <code>auto remove</code>.
+      </p>
+
+      <h3>Frame vs window</h3>
+      <p>
+      Frames refer to the partitioning of your screen into rectangular areas.
+      As you noticed, these areas may or may not <i>contain</i> a window.
+      A window internally is a wrapper around an X window.
+      The <b>clients</b> you start like an e-mail program or browser may spawn
+      such windows.  Windows can also be <b>dialogs</b>.
+      <div class="note">
+      <b id="glossary:frame">Frames</b> are rigid areas meant for consistent window positioning.
+      <br>
+      <b id="glossary:window">Windows</b> are spawned by your applications.
+      </div>
+      </p>
+
+      <h3>Window layers</h3>
+      <p>
+      There are three layers that hold onto different window modes.
+      The desktop layer is at the bottom and holds onto desktop windows.
+      The tiling layer holds onto tiling windows.
+      At the top is the floating window holding onto the rest:
+      Floating, dock and fullscreen windows.
+      </p>
+
+      <h3>Window modes</h3>
+      <p>
+      You now already know two window modes: Tiling and floating.
+      The other window modes are:
+      <b id="glossary:fullscreen">Fullscreen</b>,
+      <b id="glossary:dock">dock</b> and
+      <b id="glossary:desktop">desktop</b>.
+      When a window is <b id="glossary:mapping">mapped</b>
+      (about to be shown on screen), fensterchef decides based on the window's
+      internal properties what mode it should be in initially.
+      When you start a video game, it usually starts as fullscreen.
+      Dialog windows usually start as floating windows.
+      Other windows like bars are dock windows and then there are the desktop
+      windows in the background of everything.
+      The rest gets assigned the tiling window mode.
+      </p>
+      <p>
+      You can already make a tiling window a floating window and vise versa.
+      Now try to make it fullscreen using <code>mod+f</code>.
+      You will notice the window covers the entire screen.
+      Use <code>mod+f</code> again to put it back in its original state.
+      </p>
+      <div class="warn">
+      While focusing a floating or fullscreen window, all bindings for frames
+      still work the same way.  You are able to control what you can not see.
+      </div>
+
+      <h3>Going further</h3>
+      <p>
+      All configuration options are described in the manual page
+      <b>fensterchef</b>(5).
+      </p>
+
+      <h3>Glossary</h3>
+      <p>
+      Jump to the most informative mentioning of a term.
+      </p>
+      <ul>
+        <li><a href="#glossary:default_configuration">Default configuration</a></li>
+        <li><a href="#glossary:desktop">Desktop window mode</a></li>
+        <li><a href="#glossary:display_manager">Display manager</a></li>
+        <li><a href="#glossary:dock">Dock window mode</a></li>
+        <li><a href="#glossary:floating">Floating window mode</a></li>
+        <li><a href="#glossary:frame">Frame</a></li>
+        <li><a href="#glossary:fullscreen">Fullscreen window mode</a></li>
+        <li><a href="#glossary:mapping">Window mapping</a></li>
+        <li><a href="#glossary:terminal">Terminal emulator</a></li>
+        <li><a href="#glossary:tiling">Tiling window mode</a></li>
+        <li><a href="#glossary:window">Window</a></li>
+      </ul>
+
+    </div>
+  </body>
+</html>
