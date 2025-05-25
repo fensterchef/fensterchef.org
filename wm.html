@@ -14,8 +14,8 @@
       </div>
 
       <nav>
-        <a href="index.html"><button>Home</button></a>
-        <a href="wm.html"><button>WM</button></a>
+        <a href="index.html">Home</a>
+        <a href="wm.html">WM</a>
       </nav>
 
       <p>
@@ -135,12 +135,9 @@ exec /usr/bin/fensterchef
       the line in the supplied configuration that says "terminal".
       The bind could look like:
       <br>
-<code>~/.config/fensterchef/config</code>
 <pre>
-...
 # Start a terminal
 mod+Return run xterm
-...
 </pre>
       </p>
       <h3 id="x-session">Start an X session</h3>
@@ -182,6 +179,8 @@ mod+Return run xterm
       float.
       To automatically remove such areas, turn on <code>auto remove void</code>
       or the more aggressive <code>auto remove</code>.
+      It can also happen that a new window is filled into the now empty spot,
+      this is controlled using <code>auto fill void</code>.
       </p>
 
       <h3 id="navigate-tiling">Navigate the tiles</h3>
@@ -190,6 +189,7 @@ mod+Return run xterm
       right split or <code>mod+s</code> for a top and bottom split.
       To focus the split frames, use the home row keys <code>hjkl</code> or
       arrow keys together with <code>mod</code>.
+      To remove the splits agains, use <code>mod+r</code>.
       </p>
       <p>
       You can also swap frames around using <code>mod+Shift</code> together
@@ -197,9 +197,8 @@ mod+Return run xterm
       There is another way.
       Instead of swapping frames, fensterchef can move them around.
       You can configure this behaviour like this:
-<code>~/.config/fensterchef/config</code>
+      <br>
 <pre>
-...
 # Move frames around
 mod+Shift+h move left
 mod+Shift+j move down
@@ -209,61 +208,8 @@ mod+Shift+Left move left
 mod+Shift+Down move down
 mod+Shift+Up move up
 mod+Shift+Right move right
-...
 </pre>
       </p>
-
-      <h2 id="make-specific-float">Make specific windows float</h2>
-      <p>
-      Fensterchef has a concept called <b id="glossary:relation">relations</b>.
-      It allows you to bind specific actions to a specific window resource name
-      and class.
-      To find out which resource name and class a window has, use
-      <code>xprop</code>.
-      When you start <code>xprop</code> in a terminal, you are able to select
-      a window by clicking on it with the mouse.
-      You will be printed with all properties the window has.
-      Look for <code>WM_CLASS</code>.
-      This has two values, one is the instance name (resource name) and the
-      other the class name.
-      To create a relation to make firefox float, use:
-<pre>
-# Make the main firefox window float
-relate Navigator, firefox set floating, focus window
-</pre>
-      The relation is two comma separated string and corresponds with what you
-      see at <code>WM_CLASS</code>.
-      It actually is a glob pattern string.
-      You can use shell like matching.
-      For example:
-<pre>
-# Make all firefox windows float
-relate *, firefox set floating, focus window
-
-# Can be abbreviated as
-relate firefox set floating, focus window
-</pre>
-      The <code>focus window</code> is needed because you completely overwrite
-      the default behavior.
-      Omitting it would make firefox not open at all and stay hidden.
-      </p>
-      <p>
-      The concept of relations can also be used to give specific windows
-      different border sizes and colors:
-<pre>
-# Give Xterm a 1 border but all other windows a border size of 3
-border size 3
-relate xterm border size current 1, focus window
-</pre>
-      </p>
-      <div class="warn">
-      Unlike shells, quoting patterns does not make their meaning go away.
-      Use a backslash to escape special pattern characters.
-      </div>
-      <div class="note">
-      Window properties are also used by fensterchef internally to figure out
-      which window mode a window should be in by default.
-      </div>
 
       <h2 id="frame-vs-window">Frame vs Window</h2>
       <p>
@@ -284,46 +230,20 @@ relate xterm border size current 1, focus window
       Both frames and windows have a <b id="glossary:number">number</b>.
       The numbers of frames are unique whereas multiple windows can share the
       same number.
-      You can freely assign a number to a frame or window.
-      Let us consider an example setup:
-<pre>
-# Give two specific windows a specific number but do not show them
-relate Navigator, firefox assign window 1
-relate chat-service assign window 2
-
-# When mod+1/2 is pressed, focus window number 1/2
-mod+1 focus window 1
-mod+2 focus window 2
-
-# Start the applications
-run firefox
-run chat-service
-</pre>
-      Both firefox and the chat service of choice will open in the background.
-      They can then be selected using <code>mod+1/2</code>.
+      You can freely assign a number to a frame or window using
+      <code>assign FRAME_NUMBER</code> or
+      <code>assign window WINDOW_NUMBER</code>.
       </p>
       <p>
-      When a window with a specific number is shown and a frame with the same
-      number exists, the window is shown in that frame.
-      Let us use this property to create a specific layout:
-<pre>
-# Give two specific windows a specific number but do not show them
-relate Navigator, firefox assign window 1
-relate chat-service assign window 2
-
-# If mod+F1 is pressed in any frame, create a split with firefox
-# on the left and the chat-service on the right
-mod+F1 (
-  split horizontally
-  assign 1
-  move right
-  assign 2
-
-  run firefox
-  run chat-service
-)
-</pre>
+      Open a terminal and make it float.
+      Press <code>mod+Shift+1</code> to give it number 101.
+      Hide it using <code>mod+minus</code>.
+      Now you can open it again using <code>mod+1</code>.
       </p>
+      <div class="info">
+      A lot more is possible using relations.
+      See <b>fensterchef</b>(5) for more information.
+      </div>
 
       <h2 id="window-layers">Window layers</h2>
       <p>
@@ -390,9 +310,8 @@ mod+F1 (
 
       <h2 id="frame-stash">Frame stash</h2>
       <p>
-      You can remove frames using <code>mod+r</code>.
-      They are not actually removed but put into the
-      <b id="glossary:frame-stash">frame stash</b>.
+      If you remove frames using <code>mod+r</code> they are not actually
+      removed but put into the <b id="glossary:frame-stash">frame stash</b>.
       You can pop frames from this stash using <code>mod+o</code>.
       This swaps out the current frame with the stashed frame.
       Empty frames will never be stashed.
@@ -435,9 +354,9 @@ mod+F1 (
       specific monitors:
 <pre>
 # Move the current window to a monitor called HDMI-A-0
-mod+Shift+1 center window to HDMI-A-0
+mod+Shift+a center window to HDMI-A-0
 # Or one called DVI-D-2
-mod+Shift+2 center window to DVI-D-2
+mod+Shift+z center window to DVI-D-2
 </pre>
       </p>
 

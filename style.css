@@ -31,14 +31,16 @@ nav {
   text-align: center;
 }
 
-nav button {
+nav a {
   font-size: large;
   border: none;
   background-color: inherit;
   padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: black;
 }
 
-nav button:hover {
+nav a:hover {
   cursor: pointer;
   background-color: black;
   color: white;
