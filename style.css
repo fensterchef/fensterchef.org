@@ -46,6 +46,8 @@ nav button:hover {
 
 pre {
   margin-left: 1em;
+  margin-bottom: 1em;
+  padding: 0em;
   font-family: monospace;
 }
 
